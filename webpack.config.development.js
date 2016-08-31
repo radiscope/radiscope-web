@@ -21,7 +21,8 @@ export default merge(baseConfig, {
 
   module: {
     loaders: [
-
+      { test: /\.jpe?g$|\.gif$|\.png$|\.ico$/, loader: 'file?name=[name].[ext]' },
+      { test: /\.eot|\.ttf|\.svg|\.woff2?/, loader: 'file?name=[name].[ext]' },
       {
         test: /\.scss$/,
         loaders: [
