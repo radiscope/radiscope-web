@@ -1,8 +1,8 @@
 import { Application } from 'spectron';
 import { expect } from 'chai';
 import electronPath from 'electron';
-import homeStyles from '../app/less/Home.css';
-import counterStyles from '../app/less/Counter.css';
+import homeStyles from '../app/sass/Home.css';
+import counterStyles from '../app/sass/Counter.css';
 
 const delay = time => new Promise(resolve => setTimeout(resolve, time));
 

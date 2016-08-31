@@ -23,8 +23,12 @@ export default merge(baseConfig, {
     loaders: [
 
       {
-        test: /\.less$/,
-        loader: "style!css!less"
+        test: /\.scss$/,
+        loaders: [
+          'style-loader',
+          'css-loader',
+          'sass-loader'
+        ]
       },
 
       {
