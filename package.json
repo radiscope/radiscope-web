@@ -60,6 +60,7 @@
     "babel-preset-react-hmre": "^1.1.1",
     "babel-preset-stage-0": "^6.5.0",
     "babel-register": "^6.14.0",
+    "bootswatch": "^3.3.7",
     "chai": "^3.5.0",
     "concurrently": "^2.2.0",
     "cross-env": "^2.0.1",

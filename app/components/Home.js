@@ -18,9 +18,11 @@ export default class Home extends Component {
                   <MenuItem eventKey="4">Separated link</MenuItem>
                 </DropdownButton>
               </InputGroup.Button>
-              <FormControl />
+              <FormGroup controlId="formValidationWarning1">
+                <FormControl type="text" />
+              </FormGroup>
               <InputGroup.Button>
-                <Button className="search-button" ><Glyphicon glyph="search"/>Search</Button>
+                <Button bsStyle="success" className="search-button" >Send</Button>
               </InputGroup.Button>
             </InputGroup>
           </FormGroup>
