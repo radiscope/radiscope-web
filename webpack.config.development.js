@@ -24,14 +24,9 @@ export default merge(baseConfig, {
       { test: /\.jpe?g$|\.gif$|\.png$|\.ico$/, loader: 'file?name=[name].[ext]' },
       { test: /\.eot|\.ttf|\.svg|\.woff2?/, loader: 'file?name=[name].[ext]' },
       {
-        test: /\.scss$/,
-        loaders: [
-          'style-loader',
-          'css-loader',
-          'sass-loader'
-        ]
+        test: /\.less$/,
+        loader: "style!css!less"
       },
-
       {
         test: /\.css$/,
         loaders: [

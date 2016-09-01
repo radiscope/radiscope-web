@@ -12,23 +12,18 @@ const config = merge(baseConfig, {
     publicPath: '../dist/'
   },
 
+  resolve: {
+    extensions: ['', '.js', '.json', 'txt']
+  },
+
   module: {
     loaders: [
-      {
-        test: /\.scss/,
-        loader: ExtractTextPlugin.extract(
-          'style-loader',
-          'css-loader',
-          'sass-loader'
-        )
-      },
-      {
-        test: /\.css$/,
-        loader: ExtractTextPlugin.extract(
-          'style-loader',
-          'css-loader'
-        )
-      }
+      {test: /\.jpe?g$|\.gif$|\.png$|\.ico$/, loader: 'file?name=[name].[ext]'},
+      {test: /\.eot|\.ttf|\.svg|\.woff2?/, loader: 'file?name=[name].[ext]'},
+      {test: /\.less$/, loader:  ExtractTextPlugin.extract("style-loader", "css-loader!less-loader")},
+      {test: /\.css/, loader: ExtractTextPlugin.extract("style-loader", "css-loader")},
+      {test: /\.js/, loaders: ['babel'], exclude: /node_modules/ },
+      {test: /\.jsx/, loaders: ['babel'], exclude: /node_modules/ },
     ]
   },
 
