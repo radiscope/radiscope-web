@@ -22,3 +22,5 @@ Now, here is the description of the arguments:
 - `radiscope`: The database name.
 
 The above script will ask you the `postgres` password before it's completed.
+
+Everytime the database schema changes, the above script to be executed and the `createDb.sql` file should be pushed to the repo.
