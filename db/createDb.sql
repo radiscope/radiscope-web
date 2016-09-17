@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 9.5.0
--- Dumped by pg_dump version 9.5.1
+-- Dumped by pg_dump version 9.5.0
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -53,6 +53,64 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: notification; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE notification (
+    id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    read boolean DEFAULT false NOT NULL,
+    type smallint NOT NULL,
+    data json NOT NULL,
+    user_id integer NOT NULL
+);
+
+
+ALTER TABLE notification OWNER TO postgres;
+
+--
+-- Name: COLUMN notification.read; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN notification.read IS 'Whether or not the user has read the notification';
+
+
+--
+-- Name: COLUMN notification.type; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN notification.type IS 'Notification type. This is an enum/const that will be defined in code';
+
+
+--
+-- Name: COLUMN notification.user_id; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN notification.user_id IS 'The user the notification is for';
+
+
+--
+-- Name: notification_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE notification_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE notification_id_seq OWNER TO postgres;
+
+--
+-- Name: notification_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE notification_id_seq OWNED BY notification.id;
+
+
+--
 -- Name: project; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -61,6 +119,7 @@ CREATE TABLE project (
     display_name character varying(50) NOT NULL,
     user_id integer,
     workplace_id integer,
+    due_date date,
     CONSTRAINT project_user_id_workplace_id_check CHECK ((((user_id IS NOT NULL) AND (workplace_id IS NULL)) OR ((user_id IS NULL) AND (workplace_id IS NOT NULL))))
 );
 
@@ -119,7 +178,8 @@ CREATE TABLE task (
     project_id integer,
     workplace_id integer,
     assigned_to integer,
-    due_date date
+    due_date date,
+    status integer
 );
 
 
@@ -144,6 +204,13 @@ COMMENT ON COLUMN task.project_id IS 'The project this task belongs to. A task c
 --
 
 COMMENT ON COLUMN task.workplace_id IS 'The workplace this task belongs to. A task can belong to a user OR a project OR a workplace';
+
+
+--
+-- Name: COLUMN task.status; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN task.status IS 'The status of the task. This will be an enum/const defined in code';
 
 
 --
@@ -241,6 +308,40 @@ COMMENT ON COLUMN "user".oauth_profiles IS 'A JSON containing information return
 
 
 --
+-- Name: user_tasks_following; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE user_tasks_following (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    task_id integer NOT NULL
+);
+
+
+ALTER TABLE user_tasks_following OWNER TO postgres;
+
+--
+-- Name: user_tasks_following_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE user_tasks_following_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE user_tasks_following_id_seq OWNER TO postgres;
+
+--
+-- Name: user_tasks_following_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE user_tasks_following_id_seq OWNED BY user_tasks_following.id;
+
+
+--
 -- Name: user_workplaces; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -312,6 +413,13 @@ ALTER SEQUENCE workplace_id_seq OWNED BY workplace.id;
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
+ALTER TABLE ONLY notification ALTER COLUMN id SET DEFAULT nextval('notification_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
 ALTER TABLE ONLY project ALTER COLUMN id SET DEFAULT nextval('project_id_seq'::regclass);
 
 
@@ -333,6 +441,13 @@ ALTER TABLE ONLY task_comment ALTER COLUMN id SET DEFAULT nextval('task_comment_
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
+ALTER TABLE ONLY user_tasks_following ALTER COLUMN id SET DEFAULT nextval('user_tasks_following_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
 ALTER TABLE ONLY user_workplaces ALTER COLUMN id SET DEFAULT nextval('user_workplaces_id_seq'::regclass);
 
 
@@ -341,6 +456,14 @@ ALTER TABLE ONLY user_workplaces ALTER COLUMN id SET DEFAULT nextval('user_workp
 --
 
 ALTER TABLE ONLY workplace ALTER COLUMN id SET DEFAULT nextval('workplace_id_seq'::regclass);
+
+
+--
+-- Name: notification_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY notification
+    ADD CONSTRAINT notification_pkey PRIMARY KEY (id);
 
 
 --
@@ -392,6 +515,14 @@ ALTER TABLE ONLY "user"
 
 
 --
+-- Name: user_tasks_following_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY user_tasks_following
+    ADD CONSTRAINT user_tasks_following_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: user_workplaces_id_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -412,6 +543,14 @@ ALTER TABLE ONLY workplace
 --
 
 CREATE UNIQUE INDEX user_email_uindex ON "user" USING btree (email);
+
+
+--
+-- Name: notification_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY notification
+    ADD CONSTRAINT notification_user_id_fk FOREIGN KEY (user_id) REFERENCES "user"(id);
 
 
 --
@@ -476,6 +615,22 @@ ALTER TABLE ONLY task
 
 ALTER TABLE ONLY task
     ADD CONSTRAINT task_workplace_id_fk FOREIGN KEY (workplace_id) REFERENCES workplace(id);
+
+
+--
+-- Name: user_tasks_following_task_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY user_tasks_following
+    ADD CONSTRAINT user_tasks_following_task_id_fk FOREIGN KEY (task_id) REFERENCES task(id);
+
+
+--
+-- Name: user_tasks_following_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY user_tasks_following
+    ADD CONSTRAINT user_tasks_following_user_id_fk FOREIGN KEY (user_id) REFERENCES "user"(id);
 
 
 --
