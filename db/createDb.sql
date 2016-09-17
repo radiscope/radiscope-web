@@ -5,7 +5,7 @@
 -- Dumped from database version 9.5.0
 -- Dumped by pg_dump version 9.5.1
 
--- Started on 2016-09-17 14:46:32
+-- Started on 2016-09-17 15:02:46
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -16,7 +16,7 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- TOC entry 2164 (class 1262 OID 40951)
+-- TOC entry 2165 (class 1262 OID 40951)
 -- Name: radiscope; Type: DATABASE; Schema: -; Owner: postgres
 --
 
@@ -36,25 +36,6 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- TOC entry 6 (class 2615 OID 2200)
--- Name: public; Type: SCHEMA; Schema: -; Owner: postgres
---
-
-CREATE SCHEMA public;
-
-
-ALTER SCHEMA public OWNER TO postgres;
-
---
--- TOC entry 2165 (class 0 OID 0)
--- Dependencies: 6
--- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: postgres
---
-
-COMMENT ON SCHEMA public IS 'standard public schema';
-
-
---
 -- TOC entry 1 (class 3079 OID 12355)
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
 --
@@ -63,7 +44,7 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2167 (class 0 OID 0)
+-- TOC entry 2168 (class 0 OID 0)
 -- Dependencies: 1
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
@@ -94,7 +75,7 @@ CREATE TABLE project (
 ALTER TABLE project OWNER TO postgres;
 
 --
--- TOC entry 2168 (class 0 OID 0)
+-- TOC entry 2169 (class 0 OID 0)
 -- Dependencies: 188
 -- Name: COLUMN project.user_id; Type: COMMENT; Schema: public; Owner: postgres
 --
@@ -103,7 +84,7 @@ COMMENT ON COLUMN project.user_id IS 'The user this project belongs to. The proj
 
 
 --
--- TOC entry 2169 (class 0 OID 0)
+-- TOC entry 2170 (class 0 OID 0)
 -- Dependencies: 188
 -- Name: COLUMN project.workplace_id; Type: COMMENT; Schema: public; Owner: postgres
 --
@@ -112,7 +93,7 @@ COMMENT ON COLUMN project.workplace_id IS 'The workplace this project belongs to
 
 
 --
--- TOC entry 2170 (class 0 OID 0)
+-- TOC entry 2171 (class 0 OID 0)
 -- Dependencies: 188
 -- Name: CONSTRAINT project_user_id_workplace_id_check ON project; Type: COMMENT; Schema: public; Owner: postgres
 --
@@ -136,7 +117,7 @@ CREATE SEQUENCE project_id_seq
 ALTER TABLE project_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2171 (class 0 OID 0)
+-- TOC entry 2172 (class 0 OID 0)
 -- Dependencies: 187
 -- Name: project_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -160,7 +141,7 @@ CREATE TABLE task (
 ALTER TABLE task OWNER TO postgres;
 
 --
--- TOC entry 2172 (class 0 OID 0)
+-- TOC entry 2173 (class 0 OID 0)
 -- Dependencies: 190
 -- Name: COLUMN task.user_id; Type: COMMENT; Schema: public; Owner: postgres
 --
@@ -169,7 +150,7 @@ COMMENT ON COLUMN task.user_id IS 'The user this task belongs to. A task can bel
 
 
 --
--- TOC entry 2173 (class 0 OID 0)
+-- TOC entry 2174 (class 0 OID 0)
 -- Dependencies: 190
 -- Name: COLUMN task.project_id; Type: COMMENT; Schema: public; Owner: postgres
 --
@@ -178,7 +159,7 @@ COMMENT ON COLUMN task.project_id IS 'The project this task belongs to. A task c
 
 
 --
--- TOC entry 2174 (class 0 OID 0)
+-- TOC entry 2175 (class 0 OID 0)
 -- Dependencies: 190
 -- Name: COLUMN task.workplace_id; Type: COMMENT; Schema: public; Owner: postgres
 --
@@ -218,7 +199,7 @@ CREATE SEQUENCE task_comment_id_seq
 ALTER TABLE task_comment_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2175 (class 0 OID 0)
+-- TOC entry 2176 (class 0 OID 0)
 -- Dependencies: 191
 -- Name: task_comment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -242,7 +223,7 @@ CREATE SEQUENCE task_id_seq
 ALTER TABLE task_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2176 (class 0 OID 0)
+-- TOC entry 2177 (class 0 OID 0)
 -- Dependencies: 189
 -- Name: task_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -272,9 +253,9 @@ ALTER TABLE user_id_seq OWNER TO postgres;
 
 CREATE TABLE "user" (
     id integer DEFAULT nextval('user_id_seq'::regclass) NOT NULL,
-    name character varying(50),
+    name character varying(50) NOT NULL,
     display_name character varying(50) NOT NULL,
-    email character varying(255),
+    email character varying(255) NOT NULL,
     photo_url character varying(255),
     oauth_profiles json
 );
@@ -283,7 +264,7 @@ CREATE TABLE "user" (
 ALTER TABLE "user" OWNER TO postgres;
 
 --
--- TOC entry 2177 (class 0 OID 0)
+-- TOC entry 2178 (class 0 OID 0)
 -- Dependencies: 184
 -- Name: COLUMN "user".oauth_profiles; Type: COMMENT; Schema: public; Owner: postgres
 --
@@ -321,7 +302,7 @@ CREATE SEQUENCE user_workplaces_id_seq
 ALTER TABLE user_workplaces_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2178 (class 0 OID 0)
+-- TOC entry 2179 (class 0 OID 0)
 -- Dependencies: 185
 -- Name: user_workplaces_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -359,7 +340,7 @@ CREATE SEQUENCE workplace_id_seq
 ALTER TABLE workplace_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2179 (class 0 OID 0)
+-- TOC entry 2180 (class 0 OID 0)
 -- Dependencies: 181
 -- Name: workplace_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -408,7 +389,7 @@ ALTER TABLE ONLY workplace ALTER COLUMN id SET DEFAULT nextval('workplace_id_seq
 
 
 --
--- TOC entry 2032 (class 2606 OID 41006)
+-- TOC entry 2033 (class 2606 OID 41006)
 -- Name: project_id_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -417,7 +398,7 @@ ALTER TABLE ONLY project
 
 
 --
--- TOC entry 2036 (class 2606 OID 41094)
+-- TOC entry 2037 (class 2606 OID 41094)
 -- Name: task_comment_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -426,7 +407,7 @@ ALTER TABLE ONLY task_comment
 
 
 --
--- TOC entry 2034 (class 2606 OID 41079)
+-- TOC entry 2035 (class 2606 OID 41079)
 -- Name: task_id_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -435,7 +416,7 @@ ALTER TABLE ONLY task
 
 
 --
--- TOC entry 2024 (class 2606 OID 40978)
+-- TOC entry 2025 (class 2606 OID 40978)
 -- Name: user_email_unique; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -444,7 +425,7 @@ ALTER TABLE ONLY "user"
 
 
 --
--- TOC entry 2026 (class 2606 OID 40976)
+-- TOC entry 2027 (class 2606 OID 40976)
 -- Name: user_id_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -453,7 +434,7 @@ ALTER TABLE ONLY "user"
 
 
 --
--- TOC entry 2028 (class 2606 OID 41038)
+-- TOC entry 2029 (class 2606 OID 41038)
 -- Name: user_name_unique; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -462,7 +443,7 @@ ALTER TABLE ONLY "user"
 
 
 --
--- TOC entry 2030 (class 2606 OID 40988)
+-- TOC entry 2031 (class 2606 OID 40988)
 -- Name: user_workplaces_id_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -480,7 +461,15 @@ ALTER TABLE ONLY workplace
 
 
 --
--- TOC entry 2039 (class 2606 OID 41007)
+-- TOC entry 2023 (class 1259 OID 41105)
+-- Name: user_email_uindex; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX user_email_uindex ON "user" USING btree (email);
+
+
+--
+-- TOC entry 2040 (class 2606 OID 41007)
 -- Name: project_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -489,7 +478,7 @@ ALTER TABLE ONLY project
 
 
 --
--- TOC entry 2040 (class 2606 OID 41013)
+-- TOC entry 2041 (class 2606 OID 41013)
 -- Name: project_workplace_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -498,7 +487,7 @@ ALTER TABLE ONLY project
 
 
 --
--- TOC entry 2045 (class 2606 OID 41100)
+-- TOC entry 2046 (class 2606 OID 41100)
 -- Name: task_comment_task_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -507,7 +496,7 @@ ALTER TABLE ONLY task_comment
 
 
 --
--- TOC entry 2044 (class 2606 OID 41088)
+-- TOC entry 2045 (class 2606 OID 41088)
 -- Name: task_comment_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -516,7 +505,7 @@ ALTER TABLE ONLY task_comment
 
 
 --
--- TOC entry 2043 (class 2606 OID 41073)
+-- TOC entry 2044 (class 2606 OID 41073)
 -- Name: task_project_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -525,7 +514,7 @@ ALTER TABLE ONLY task
 
 
 --
--- TOC entry 2042 (class 2606 OID 41068)
+-- TOC entry 2043 (class 2606 OID 41068)
 -- Name: task_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -534,7 +523,7 @@ ALTER TABLE ONLY task
 
 
 --
--- TOC entry 2041 (class 2606 OID 41063)
+-- TOC entry 2042 (class 2606 OID 41063)
 -- Name: task_workplace_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -543,7 +532,7 @@ ALTER TABLE ONLY task
 
 
 --
--- TOC entry 2037 (class 2606 OID 40989)
+-- TOC entry 2038 (class 2606 OID 40989)
 -- Name: user_workplaces_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -552,7 +541,7 @@ ALTER TABLE ONLY user_workplaces
 
 
 --
--- TOC entry 2038 (class 2606 OID 40994)
+-- TOC entry 2039 (class 2606 OID 40994)
 -- Name: user_workplaces_workplace_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -561,7 +550,7 @@ ALTER TABLE ONLY user_workplaces
 
 
 --
--- TOC entry 2166 (class 0 OID 0)
+-- TOC entry 2167 (class 0 OID 0)
 -- Dependencies: 6
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
 --
@@ -572,7 +561,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2016-09-17 14:46:32
+-- Completed on 2016-09-17 15:02:47
 
 --
 -- PostgreSQL database dump complete
