@@ -4,7 +4,9 @@
   "description": "Project Management Solution",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=development babel-node ./src/server/index.js"
+    "start": "cross-env NODE_ENV=development babel-node ./src/server/index.js",
+    "test": "mocha ./test --compilers js:babel-register",
+    "coverage": "babel-node node_modules/isparta/bin/isparta cover --report text --report html node_modules/mocha/bin/_mocha --"
   },
   "repository": {
     "type": "git",
@@ -51,6 +53,7 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
     "fs-extra-promise": "^0.4.0",
+    "isparta": "^4.0.0",
     "json-loader": "^0.5.4",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
