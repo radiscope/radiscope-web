@@ -6,15 +6,24 @@ import {Provider} from 'react-redux';
 import {syncHistoryWithStore} from 'react-router-redux';
 import {browserHistory} from 'react-router'
 import ReactDOM from 'react-dom';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-import './styles/Styles.less';
+import '../../node_modules/normalize.css/normalize.css';
+import './styles/app.css';
 
 const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store);
 
+// Needed for onTouchTap
+// http://stackoverflow.com/a/34015469/988941
+injectTapEventPlugin();
+
 ReactDOM.render(
     <Provider store={store}>
-        <Router history={history} routes={routes}/>
+        <MuiThemeProvider>
+            <Router history={history} routes={routes}/>
+        </MuiThemeProvider>
     </Provider>,
     document.getElementById('app')
 );
