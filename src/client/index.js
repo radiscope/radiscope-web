@@ -8,6 +8,7 @@ import {browserHistory} from 'react-router'
 import ReactDOM from 'react-dom';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import muiTheme from './theme/muiTheme';
 
 import './styles/app.css';
 
@@ -20,7 +21,7 @@ injectTapEventPlugin();
 
 ReactDOM.render(
     <Provider store={store}>
-        <MuiThemeProvider>
+        <MuiThemeProvider muiTheme={muiTheme}>
             <Router history={history} routes={routes}/>
         </MuiThemeProvider>
     </Provider>,
