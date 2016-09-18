@@ -1,34 +1,63 @@
-Dumping the database schema
-===========================
+Working with dev databases
+==========================
 
-The file `createDb.sql` contains the database schema creation.
+First, make sure that `pg_dump` is on your PATH. On Windows, it's in `C:\Program Files\PostgreSQL\9.5\bin` if you're using PG 9.5.
 
-Generating the createDb.sql and setupDb.sql out of the database
----------------------------------------------------------------
+Creating the dev databases
+--------------------------
 
-The `setupDb.sql` file will create all objects (tables, constraints) in an existing `radiscope` database.
-The `createDb.sql` file will do the same thing, except that it will create the `radiscope` database first.
+Run these commands:
 
-In order to generate the above files, these commands should be executed:
-
-    SET PGPASSWORD=@Radiscope // export PGPASSWORD="@Radiscope" on Linux
+    SET PGPASSWORD=@Radiscope
     
-    REM Create the createDb.sql file // not sure how to comment in Linux
-    pg_dump --schema-only  -w -C -f createDb.sql -p 5432 -U postgres radiscope
+    REM Creates the radiscope dev db
+    createDb -E 'UTF8' --lc-collate C --lc-ctype C -U postgres -T template0 radiscope
     
-    REM Create the setupDb.sql file // not sure how to comment in Linux
-    pg_dump --schema-only -w -f setupDb.sql -p 5432 -U postgres radiscope
+    REM Creates the radiscope_tests dev db
+    createDb -E 'UTF8' --lc-collate C --lc-ctype C -U postgres -T template0 radiscope_tests
+
+...or the `create_dev_dbs.bat` file.
+
+This will:
+
+- Create the `radiscope` database.
+- Create the `radiscope_tests` database.
+
+Updating the scripts after the radiscope dev database is modified
+-----------------------------------------------------------------
+
+After the `radiscope` database is modified during development, the `setupDb.sql` script should be updated.
+In order to do so, run these commands:
+
+    SET PGPASSWORD=@Radiscope
     
-First, make sure that `pg_dump` is on your PATH. On Windows, it's in `C:\Program Files\PostgreSQL\9.5\bin` if you're using PG 9.5
+    REM Create the setupDb.sql file
+    pg_dump --schema-only -W -w -f setupDb.sql -p 5432 -U postgres radiscope
+    
+...or the `generate_scripts.bat` file.
 
-Now, here is the description of the arguments:
+This will:
 
-- `--schema-only`: Includes only the schema, not the data.
-- `-w`: Will not ask for the password. The password is expected to be in the PGPASSWORD env variable or on the `.pgpass` file.
-- `-C`: Will include the `create database` command.
-- `-f createDb.sql`: Specifies the output file.
-- `-p 5432`: Specifies the port. This is the default one.
-- `postgres`: The user name.
-- `radiscope`: The database name.
+- Update the `setupDb.sql` file.
 
-Every time the database schema changes, the above script to be executed and the `createDb.sql` and `setupDb.sql` files should be pushed to the repo.
+Don't forget to commit and push the new `setupDb.sql` file to the repo.
+
+Deleting the radiscope dev databases
+------------------------------------
+
+Run these commands:
+
+    SET PGPASSWORD=@Radiscope
+    
+    REM drops the radiscope dev db
+    dropdb -U postgres radiscope
+    
+    REM drops the radiscope_tests dev db
+    dropdb -U postgres radiscope_tests
+    
+...or the `drop_dev_dbs.bat` file.
+
+This will:
+
+- Drop the `radiscope` database.
+- Drop the `radiscope_tests` database.
