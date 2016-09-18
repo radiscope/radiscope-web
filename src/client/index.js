@@ -9,7 +9,6 @@ import ReactDOM from 'react-dom';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-import '../../node_modules/normalize.css/normalize.css';
 import './styles/app.css';
 
 const store = configureStore();
