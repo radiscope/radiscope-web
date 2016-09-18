@@ -1,1 +1,0 @@
-pg_dump --schema-only -C -f createDb.sql -p 5432 -U postgres radiscope
