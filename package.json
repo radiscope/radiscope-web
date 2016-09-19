@@ -7,8 +7,8 @@
     "start": "cross-env NODE_ENV=development babel-node ./src/server/index.js",
     "test": "mocha ./test --compilers js:babel-register",
     "coverage": "babel-node node_modules/isparta/bin/isparta cover --report text --report html node_modules/mocha/bin/_mocha --",
-    "installDB": "cross-env COMMAND=create_dev_dbs PGPASSWORD=@Radiscope node ./db/installDB.js",
-    "dropDB": "cross-env COMMAND=drop_dev_dbs PGPASSWORD=@Radiscope node ./db/installDB.js",
+    "installDb": "cross-env COMMAND=create_dev_dbs PGPASSWORD=@Radiscope node ./db/installDB.js",
+    "dropDb": "cross-env COMMAND=drop_dev_dbs PGPASSWORD=@Radiscope node ./db/installDB.js",
     "generateDump": "cross-env COMMAND=generate_scripts PGPASSWORD=@Radiscope node ./db/installDB.js"
   },
   "repository": {
