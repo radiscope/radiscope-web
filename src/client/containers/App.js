@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import DevTools from '../components/DevTools';
-import { AppBar, Drawer, Card, MenuItem, FontIcon, IconButton } from 'material-ui';
-import ArrowLeft from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
-import ArrowRight from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
+import { AppBar, Card } from 'material-ui';
+import NavigationDrawer from '../components/NavigationDrawer';
 import { Grid } from 'react-flexbox-grid';
 
 const isMobile = () => {
@@ -64,21 +63,21 @@ class App extends Component {
             let width = drawerWidth + 25;
 
             return {
-                marginLeft: `${width}px`,
-                marginTop: "20px",
-                marginRight: "20px",
-                marginBottom: "20px"
+	            marginLeft: `${width}px`,
+	            marginTop: "20px",
+	            marginRight: "20px",
+	            marginBottom: "20px"
             }
         } else if (isDrawerOpen && !isMobile()) {
             return {
-                marginLeft: "280px",
-                marginTop: "20px",
-                marginRight: "20px",
-                marginBottom: "20px"
+	            marginLeft: "280px",
+	            marginTop: "20px",
+	            marginRight: "20px",
+	            marginBottom: "20px"
             }
         } else {
             return {
-                margin: "20px"
+	            margin: "20px"
             }
         }
     };
@@ -96,26 +95,10 @@ class App extends Component {
         let { drawerOpen, drawerWidth, width, height, drawerResize } = this.state;
 
         let containerStyle = {
-            height: `${(height - 76)}px`,
-            width: drawerOpen? `${(width - 300)}px` : `${(width - 20)}px`,
+            height: `${(height - 96)}px`,
+            width: drawerOpen? `${(width - 320)}px` : `${(width - 40)}px`,
             transition: `${width} 300ms ease-in-out, ${height} 300ms ease-in-out`
         };
-
-        let icon = null;
-
-        if (drawerResize) {
-            icon = (
-                <IconButton>
-                    <ArrowRight/>
-                </IconButton>
-            )
-        } else {
-            icon = (
-                <IconButton>
-                    <ArrowLeft/>
-                </IconButton>
-            );
-        }
 
         return (
             <div>
@@ -123,23 +106,18 @@ class App extends Component {
                     title='Radiscope'
                     onLeftIconButtonTouchTap={this.handleMenuTouch}
                 />
-                <Drawer
-                    open={drawerOpen}
-                    containerClassName='drawer-container'
-                    width={drawerWidth}
-                >
-                    <div className="bottom-div">
-                        <MenuItem onTouchTap={this.handleDrawerResize}>
-                            {icon}
-                        </MenuItem>
-                    </div>
-                </Drawer>
-                <Grid style={this.handleMargin()}>
-                    <Card containerStyle={containerStyle}>
-                        {children}
-                    </Card>
-                </Grid>
-                <DevTools />
+	            <NavigationDrawer
+		            drawerResize={drawerResize}
+		            drawerOpen={drawerOpen}
+		            drawerWidth={drawerWidth}
+		            handleResize={this.handleDrawerResize}
+	            />
+	            <Grid style={this.handleMargin()}>
+		            <Card containerStyle={containerStyle}>
+			            {children}
+			        </Card>
+	            </Grid>
+	            <DevTools />
             </div>
         );
     }
