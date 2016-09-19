@@ -12,33 +12,24 @@ import muiTheme from './theme/muiTheme';
 
 import './styles/app.css';
 
-class Client extends Component {
-    static getMountPoint() {
-        return document.getElementById('app');
-    }
+injectTapEventPlugin();
 
-    componentDidMount() {
-        // Needed for onTouchTap
-        // http://stackoverflow.com/a/34015469/988941
-        injectTapEventPlugin();
+const Client = ({ store, history }) => (
+	<Provider store={store}>
+		<MuiThemeProvider muiTheme={muiTheme}>
+			<Router history={history} routes={routes}/>
+		</MuiThemeProvider>
+	</Provider>
+);
 
-        this.setState({
-            store: configureStore()
-        });
-    }
+const getMountPoint = () => {
+	return document.getElementById("app");
+};
 
-    render() {
-        let { store } = this.state;
-        let history = syncHistoryWithStore(browserHistory, store);
-
-        return (
-            <Provider store={store}>
-                <MuiThemeProvider muiTheme={muiTheme}>
-                    <Router history={history} routes={routes}/>
-                </MuiThemeProvider>
-            </Provider>
-        )
-    }
-}
-
-ReactDOM.render(<Client/>, Client.getMountPoint());
+ReactDOM.render(
+	<Client
+		store={configureStore()}
+		history={syncHistoryWithStore(browserHistory, configureStore())}
+	/>,
+	getMountPoint()
+);

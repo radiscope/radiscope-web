@@ -1,7 +1,9 @@
 body {
-    height: auto;
-    background-color: #eceff1;
-    margin: 0;
+    background-color: #e0e0e0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    max-height: 100% !important;
+    max-width: 100% !important;
 }
 
 .drawer-container {
