@@ -65,6 +65,12 @@ class App extends Component {
         let { children } = this.props;
         let { drawerOpen, width, height } = this.state;
 
+        let containerStyle = {
+            height: `${(height - 76)}px`,
+            width: drawerOpen? `${(width - 300)}px` : `${(width - 20)}px`,
+            transition: `${width} 300ms ease-in-out, ${height} 300ms ease-in-out`
+        };
+
         return (
             <div>
                 <AppBar
@@ -76,7 +82,7 @@ class App extends Component {
                     containerClassName='drawer-container'
                 />
                 <Grid style={this.handleMargin()}>
-                    <Card containerStyle={{ height: `${(height - 76)}px`, width: drawerOpen? `${(width - 300)}px` : `${(width - 20)}px` }}>
+                    <Card containerStyle={containerStyle}>
                         {children}
                     </Card>
                 </Grid>
