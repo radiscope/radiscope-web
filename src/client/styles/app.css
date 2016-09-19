@@ -8,3 +8,11 @@ body {
     z-index: 0 !important;
     padding-top: 56px !important;
 }
+
+.bottom-div {
+    background: #F5F5F5 !important;
+    float: right !important;
+    width: 100% !important;
+    position: absolute !important;
+    bottom: 0 !important;
+}
