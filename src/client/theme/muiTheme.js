@@ -6,6 +6,6 @@ export default getMuiTheme({
         primary1Color: blue600
     },
     appBar: {
-        height: 50
+        height: 56
     }
 });

@@ -1,4 +1,10 @@
 body {
+    height: auto;
     background-color: #eceff1;
     margin: 0;
+}
+
+.drawer-container {
+    z-index: 0 !important;
+    padding-top: 56px !important;
 }

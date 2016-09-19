@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {Router} from 'react-router'
 import routes from './routes/Routes';
 import configureStore from './redux/store/Store';
@@ -12,18 +12,33 @@ import muiTheme from './theme/muiTheme';
 
 import './styles/app.css';
 
-const store = configureStore();
-const history = syncHistoryWithStore(browserHistory, store);
+class Client extends Component {
+    static getMountPoint() {
+        return document.getElementById('app');
+    }
 
-// Needed for onTouchTap
-// http://stackoverflow.com/a/34015469/988941
-injectTapEventPlugin();
+    componentDidMount() {
+        // Needed for onTouchTap
+        // http://stackoverflow.com/a/34015469/988941
+        injectTapEventPlugin();
 
-ReactDOM.render(
-    <Provider store={store}>
-        <MuiThemeProvider muiTheme={muiTheme}>
-            <Router history={history} routes={routes}/>
-        </MuiThemeProvider>
-    </Provider>,
-    document.getElementById('app')
-);
+        this.setState({
+            store: configureStore()
+        });
+    }
+
+    render() {
+        let { store } = this.state;
+        let history = syncHistoryWithStore(browserHistory, store);
+
+        return (
+            <Provider store={store}>
+                <MuiThemeProvider muiTheme={muiTheme}>
+                    <Router history={history} routes={routes}/>
+                </MuiThemeProvider>
+            </Provider>
+        )
+    }
+}
+
+ReactDOM.render(<Client/>, Client.getMountPoint());
