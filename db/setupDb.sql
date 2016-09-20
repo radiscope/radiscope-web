@@ -160,7 +160,8 @@ CREATE TABLE task (
     workplace_id integer,
     assigned_to integer,
     due_date date,
-    status integer
+    status integer,
+    text text NOT NULL
 );
 
 
