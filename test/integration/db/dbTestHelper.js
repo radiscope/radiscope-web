@@ -7,7 +7,7 @@ import {assert} from 'chai';
  * @param originalObject The original object being saved
  * @param callback The callback to be called after the whole thing
  */
-export function assertSaveFindAndDelete(db, entityName, originalObject, callback) {
+export function assertCanSaveFindAndDelete(db, entityName, originalObject, callback) {
     // saves a user
     db[entityName].saveAsync(originalObject)
     // tries to find the object we just saved

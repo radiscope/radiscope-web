@@ -1,5 +1,5 @@
 import setupSession from './setupSession';
-import {assertSaveFindAndDelete} from './dbTestHelper';
+import {assertCanSaveFindAndDelete} from './dbTestHelper';
 
 
 describe('basicEntitiAccess', function () {
@@ -15,7 +15,7 @@ describe('basicEntitiAccess', function () {
             display_name: 'André Pena',
             email: 'andrerpena@gmail.com'
         };
-        assertSaveFindAndDelete(db, 'user', user, done);
+        assertCanSaveFindAndDelete(db, 'user', user, done);
     });
 
     it('can save, find and delete tasks', done => {
@@ -30,7 +30,7 @@ describe('basicEntitiAccess', function () {
                     user_id: user.id,
                     text: 'Do something coooool!'
                 };
-                assertSaveFindAndDelete(db, 'task', task, done);
+                assertCanSaveFindAndDelete(db, 'task', task, done);
             });
     });
 });
