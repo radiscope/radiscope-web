@@ -9,7 +9,8 @@
     "coverage": "babel-node node_modules/isparta/bin/isparta cover --report text --report html node_modules/mocha/bin/_mocha --",
     "installDb": "cross-env COMMAND=create_dev_dbs PGPASSWORD=@Radiscope node ./db/installDB.js",
     "dropDb": "cross-env COMMAND=drop_dev_dbs PGPASSWORD=@Radiscope node ./db/installDB.js",
-    "generateDump": "cross-env COMMAND=generate_scripts PGPASSWORD=@Radiscope node ./db/installDB.js"
+    "generateDump": "cross-env COMMAND=generate_scripts PGPASSWORD=@Radiscope node ./db/installDB.js",
+    "test-int-db": "cross-env NODE_ENV=development mocha --timeout 15000 --compilers js:babel-register ./test/integration/db/*Spec.js"
   },
   "repository": {
     "type": "git",
@@ -71,7 +72,7 @@
     "json-loader": "^0.5.4",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
-    "mocha": "^3.0.0",
+    "mocha": "^3.0.2",
     "npm": "^3.3.4",
     "path": "^0.12.7",
     "raw-loader": "^0.5.1",
