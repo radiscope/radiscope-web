@@ -7,9 +7,9 @@ import {assert} from 'chai';
  * @param originalObject The original object being saved
  * @param callback The callback to be called after the whole thing
  */
-export function assertCanSaveFindAndDelete(db, entityName, originalObject, callback) {
-    // saves a user
-    db[entityName].saveAsync(originalObject)
+export function assertCanSaveFindAndDelete(db, entityName, originalObject) {
+    // saves the object
+    return db[entityName].saveAsync(originalObject)
     // tries to find the object we just saved
         .then((obj) => db[entityName].findOneAsync(obj.id))
         // asserts everything is there
@@ -27,7 +27,5 @@ export function assertCanSaveFindAndDelete(db, entityName, originalObject, callb
         // objs will the the array of objects deleted, in this case, there's only one
         .then(objs => db[entityName].findOneAsync(objs[0].id))
         // make sure it's not there
-        .then(obj => assert.isUndefined(obj))
-        .then(() => callback(null))
-        .catch(ex => callback(ex));
+        .then(obj => assert.isUndefined(obj));
 }

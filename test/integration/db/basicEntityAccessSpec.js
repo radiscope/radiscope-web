@@ -15,7 +15,9 @@ describe('basicEntitiAccess', function () {
             display_name: 'André Pena',
             email: 'andrerpena@gmail.com'
         };
-        assertCanSaveFindAndDelete(db, 'user', user, done);
+        assertCanSaveFindAndDelete(db, 'user', user)
+            .then(() => done())
+            .catch(done);
     });
 
     it('can save, find and delete tasks', done => {
@@ -30,7 +32,9 @@ describe('basicEntitiAccess', function () {
                     user_id: user.id,
                     text: 'Do something coooool!'
                 };
-                assertCanSaveFindAndDelete(db, 'task', task, done);
+                assertCanSaveFindAndDelete(db, 'task', task, done)
+                    .then(() => done())
+                    .catch(done);
             });
     });
 });
