@@ -272,7 +272,6 @@ ALTER TABLE user_id_seq OWNER TO postgres;
 
 CREATE TABLE "user" (
     id integer DEFAULT nextval('user_id_seq'::regclass) NOT NULL,
-    name character varying(50) NOT NULL,
     display_name character varying(50) NOT NULL,
     email character varying(255) NOT NULL,
     photo_url character varying(255),
@@ -486,14 +485,6 @@ ALTER TABLE ONLY "user"
 
 ALTER TABLE ONLY "user"
     ADD CONSTRAINT user_id_pk PRIMARY KEY (id);
-
-
---
--- Name: user_name_unique; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY "user"
-    ADD CONSTRAINT user_name_unique UNIQUE (name);
 
 
 --

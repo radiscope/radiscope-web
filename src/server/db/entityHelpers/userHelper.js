@@ -12,7 +12,7 @@ export function createFromGoogleProfile(db, profile) {
 
     let user = {
         display_name: profile.displayName,
-        photo: safeRead((p) => p.photos[0].value, profile, null),
+        photo_url: safeRead((p) => p.photos[0].value, profile, null),
         email: safeRead((p) => p.emails[0].value, profile, null),
         oauth_profiles: {
             google: {

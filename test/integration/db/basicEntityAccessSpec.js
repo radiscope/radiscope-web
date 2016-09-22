@@ -11,9 +11,8 @@ describe('basicEntitiAccess', function () {
 
     it('can save, find and delete users', done => {
         let user = {
-            name: 'andrerpena',
-            display_name: 'André Pena',
-            email: 'andrerpena@gmail.com'
+            email: 'andrerpena@gmail.com',
+            display_name: 'André Pena'
         };
         assertCanSaveFindAndDelete(db, 'user', user)
             .then(() => done())
@@ -23,9 +22,8 @@ describe('basicEntitiAccess', function () {
     it('can save, find and delete tasks', done => {
         // we need a user for the task
         db.user.saveAsync({
-            name: 'andrerpena',
-            display_name: 'André Pena',
-            email: 'andrerpena@gmail.com'
+            email: 'andrerpena@gmail.com',
+            display_name: 'André Pena'
         })
             .then((user) => {
                 let task = {
