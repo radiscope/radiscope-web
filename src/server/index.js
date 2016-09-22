@@ -12,6 +12,7 @@ import passport from 'passport';
 import setupPassport from './passport/setupPassport';
 // routes
 import authRoute from './routes/auth';
+import apiRoute from './routes/api';
 import appRoute from './routes/app';
 
 const webpackCompiler = webpack(webpackConfig);
@@ -52,6 +53,7 @@ app.use(webpackHotMiddleware(webpackCompiler));
 
 // routes
 app.use('/auth', authRoute);
+app.use('/api', apiRoute);
 app.use('', appRoute);
 
 app.listen(4000, '0.0.0.0', () => {
