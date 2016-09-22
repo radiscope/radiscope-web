@@ -1,5 +1,4 @@
-var express = require('express');
-var passport = require('passport');
+import express from 'express';
 import fs from 'fs';
 require.extensions['.html'] = function (module, filename) {
     module.exports = fs.readFileSync(filename, 'utf8');
@@ -35,4 +34,4 @@ router.route('*').get((req, res) => {
         sendApp(res);
 });
 
-module.exports = router;
+export default router;

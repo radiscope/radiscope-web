@@ -57,9 +57,3 @@ app.use('', appRoute);
 app.listen(4000, '0.0.0.0', () => {
     console.log(colors.green(`Radiscope started at http://localhost:4000/. NODE_ENV: ${process.env.NODE_ENV}`));
 });
-
-app._router.stack.forEach(function(r){
-    if (r.route && r.route.path){
-        console.log(r.route.path)
-    }
-});
