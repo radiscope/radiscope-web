@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import setupSession from './setupSession';
 import googleProfileSample from "./resources/googleProfileSample.js";
-import {createFromGoogleProfile}  from '../../../src/server/db/entityHelpers/userHelper';
+import {createFromGoogleProfile, updateFromGoogleProfile}  from '../../../src/server/db/entityHelpers/userHelper';
 
 
 describe('userHelper', function () {
@@ -28,5 +28,20 @@ describe('userHelper', function () {
             .catch(done);
     });
 
+    it('updateFromGoogleProfile', done => {
+        db.user.saveAsync({
+            email: 'andrerpena@gmail.com',
+            display_name: 'André Pena'
+        })
+            .then(u => updateFromGoogleProfile(db, u, googleProfileSample))
+            .then(u => {
+                assert.isOk(u);
+                assert.isOk(u.oauth_profiles);
+                assert.strictEqual(u.oauth_profiles.google.id, '109199054588840596357');
+                return db.user.destroyAsync({id: u.id})
+            })
+            .then(() => done())
+            .catch(done);
+    });
 
 });

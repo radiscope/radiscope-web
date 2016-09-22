@@ -38,8 +38,8 @@ export function updateFromGoogleProfile(db, existingUser, profile) {
     if (!existingUser.display_name) {
         existingUser.display_name = profile.displayName;
     }
-    if (!existingUser.photo) {
-        existingUser.photo = safeRead((p) => p.photos[0].value, profile, null);
+    if (!existingUser.photo_url) {
+        existingUser.photo_url = safeRead((p) => p.photos[0].value, profile, null);
     }
     if(!existingUser.oauth_profiles) {
         existingUser.oauth_profiles = {};
