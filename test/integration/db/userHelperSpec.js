@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import setupSession from './setupSession';
 import googleProfileSample from "./resources/googleProfileSample.js";
-import {createFromGoogleProfile, updateFromGoogleProfile}  from '../../../src/server/db/entityHelpers/userHelper';
+import {createFromGoogleProfile, updateFromGoogleProfile, findOrCreateFromGoogleProfile}  from '../../../src/server/db/entityHelpers/userHelper';
 
 
 describe('userHelper', function () {
@@ -44,4 +44,33 @@ describe('userHelper', function () {
             .catch(done);
     });
 
+    describe('findOrCreateFromGoogleProfile', () => {
+        it('when the user did not exist yet', done => {
+            db.user.findOneAsync({email: 'andrerpena@gmail.com'})
+                .then(u => {
+                    assert.isUndefined(u);
+                    return findOrCreateFromGoogleProfile(db, googleProfileSample)
+                })
+                .then(u => {
+                    assert.strictEqual(u.email, 'andrerpena@gmail.com');
+                    return db.user.destroyAsync({id: u.id});
+                })
+                .then(() => done())
+                .catch(done);
+        });
+        it('when a user with the same e-mail address already existed', done => {
+            db.user.saveAsync({
+                email: 'andrerpena@gmail.com',
+                display_name: 'André Pena'
+            })
+                .then(() => findOrCreateFromGoogleProfile(db, googleProfileSample))
+                .then(u => {
+                    assert.strictEqual(u.email, 'andrerpena@gmail.com');
+                    assert.ok(u.oauth_profiles.google);
+                    return db.user.destroyAsync({id: u.id});
+                })
+                .then(() => done())
+                .catch(done);
+        });
+    });
 });

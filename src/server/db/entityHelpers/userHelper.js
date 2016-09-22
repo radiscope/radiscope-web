@@ -1,4 +1,4 @@
-import { safeRead } from '../../../common/helpers/objectHelpers';
+import {safeRead} from '../../../common/helpers/objectHelpers';
 
 /**
  * Creates a user object from an OAuth Google profile
@@ -41,7 +41,7 @@ export function updateFromGoogleProfile(db, existingUser, profile) {
     if (!existingUser.photo_url) {
         existingUser.photo_url = safeRead((p) => p.photos[0].value, profile, null);
     }
-    if(!existingUser.oauth_profiles) {
+    if (!existingUser.oauth_profiles) {
         existingUser.oauth_profiles = {};
     }
     existingUser.oauth_profiles.google = {
@@ -66,26 +66,17 @@ export function findOrCreateFromGoogleProfile(db, profile) {
     if (!email)
         throw Error('Google profile is not valid');
 
-    return new Promise((fulfill, reject) => {
-        db.user.findOneAsync({email: email})
-            .then((user) => {
-                if (user) {
-                    let existingUserGoogleId = safeRead(u => u.oauth_profiles.google.id, user, null);
-                    if (existingUserGoogleId) {
-                        fulfill(user);
-                    }
-                    else {
-                        this.updateFromGoogleProfile(db, user, profile)
-                            .then(user => fulfill(user))
-                            .catch(ex => reject(ex));
-                    }
-                }
-                else {
-                    this.createFromGoogleProfile(db, profile)
-                        .then(user => fulfill(user))
-                        .catch(ex => reject(ex));
-                }
-            })
-            .catch(ex => reject(ex));
-    });
+    return db.user.findOneAsync({email: email})
+        .then(user => {
+            if (!user)
+                return createFromGoogleProfile(db, profile);
+
+            // if the existing user is associated with Google already (u.oauth_profiles.google.id exists), returns it
+            let existingUserGoogleId = safeRead(u => u.oauth_profiles.google.id, user, null);
+            if (existingUserGoogleId)
+                return user;
+
+            // if not, let's associate the user with the given Google profile
+            return updateFromGoogleProfile(db, user, profile);
+        });
 }
